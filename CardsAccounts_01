@@ -1,0 +1,68 @@
+import java.io.File;
+import java.io.IOException;
+
+import org.eclipse.jetty.server.Response.OutputType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.apache.commons.io.FileUtils;
+
+
+public class  CardAccounts_01 {
+	
+    public static void main(String[] args) throws InterruptedException {
+        
+    	
+    	WebDriver driver= null;
+    	
+    	
+       System.setProperty("webdriver.chrome.driver","D:\\chromedriver.exe");
+       driver= new ChromeDriver();
+       WebDriverWait wait = new WebDriverWait(driver, 10);
+       driver.get("https://uat-cms.woolworthsrewards.com.au");
+       
+       Thread.sleep(2000);
+       driver.findElement(By.xpath("//a[contains(@href,'/login.html')]")).click();
+       Thread.sleep(1000);
+       driver.findElement(By.name("username")).sendKeys("rg@w.com");
+       driver.findElement(By.name("password")).sendKeys("rewardsrenga");
+       driver.findElement(By.id("login-btn")).click();
+
+     //  Thread.sleep(2000); -- dont use this 
+       wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='My account']")));
+     
+   //driver.findElement(By.xpath("//div[@class='nav-wrapper nav-desktop']/ul[@class='right']/li[7]")).click(); - working
+       
+       driver.findElement(By.xpath("//*[text()='My account']")).click();
+       driver.findElement(By.linkText("Cards & accounts")).click();
+       
+       JavascriptExecutor jse = (JavascriptExecutor)driver;
+       jse.executeScript("window.scrollBy(0,350)", "");
+       
+   wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Order a new card']")));
+   driver.findElement(By.xpath("//*[text()='Order a new card']")).click();  
+ //  driver.findElement(By.id("select-options-06e98fcd-00e6-eb94-b27e-99cba64a38d4")).click();
+       
+// driver.findElement(By.xpath("//a[contains(@text,'Have you lost your card, need a replacement or looking to order another card for a family member? Request a new one here, and you'll receive it within 7 days.']")).click();
+       
+   driver.findElement(By.xpath("//*[@id='ordercard_display']/form/div[1]/div/input")).click();
+   driver.findElement(By.xpath("//*[@id='ordercard_display']/form/div[1]/div/input")).sendKeys(Keys.ARROW_DOWN); 
+   driver.findElement(By.xpath("//*[@id='ordercard_display']/form/div[1]/div/input")).sendKeys(Keys.ENTER);   
+   
+   driver.findElement(By.xpath("//*[@id='ordercard_display']/form/div[2]/div[2]/div[1]/label")).click();
+  // driver.findElement(By.id("replace_card_button")).click();
+   
+   driver.findElement(By.xpath("//*[@id='replace_card_button_modal']")).click();
+    
+      System.out.println("The order new card is  clicked successfully");
+       Thread.sleep(5000);
+       driver.close();
+
+}
+}
